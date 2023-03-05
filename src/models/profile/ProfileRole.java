@@ -8,23 +8,25 @@ import java.util.stream.Stream;
 
 
 public enum ProfileRole {
-    User ("user"),
-    Admin ("admin"),
-    SuperAdmin ("superadmin");
+    User("user"),
+    Admin("admin"),
+    SuperAdmin("superadmin");
 
     private final String sqlName;
 
-    public static Map<String, ProfileRole> sqlToValue;
-    static {
-        sqlToValue = Stream.of(values()).collect(Collectors.toMap(ProfileRole::toSqlName, Function.identity()));
-    }
+    private static final Map<String, ProfileRole> sqlToValue = Stream.of(values()).
+            collect(Collectors.toMap(ProfileRole::toSqlName, Function.identity()));
+
 
     ProfileRole(String value) {
         sqlName = value;
     }
-
     public String toSqlName() {
         return sqlName;
+    }
+
+    public static ProfileRole fromSqlName(String name) {
+        return sqlToValue.get(name);
     }
 
 }

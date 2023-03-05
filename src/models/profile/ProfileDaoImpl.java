@@ -12,8 +12,10 @@ public class ProfileDaoImpl implements ProfileDao {
 
     private static final Connection connection = DatabaseConnection.getConnection();
 
-    public static void create(Profile p) {
+    @Override
+    public void create(Profile p) {
         try {
+            assert connection != null;
             PreparedStatement preparedStatement = connection
                     .prepareStatement("INSERT INTO profiles(id,login,password_hash,role) VALUES (?, ?, ?, ?::profile_role)");
             preparedStatement.setObject(1, p.getId());
@@ -26,33 +28,34 @@ public class ProfileDaoImpl implements ProfileDao {
         }
     }
 
-    public static void updateById(Profile p) {
+    @Override
+    public void promote(UUID id, ProfileRole role) {
         try {
+            assert connection != null;
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE profiles SET login=?, password_hash=?, role=?::profile_role where id=?");
-            preparedStatement.setString(1, p.getLogin());
-            preparedStatement.setString(2, p.getPasswordHash());
-            preparedStatement.setString(3, p.getRole().toSqlName());
-            preparedStatement.setObject(4, p.getId());
-            System.out.println(preparedStatement);
+                    .prepareStatement("UPDATE profiles SET role=?::profile_role where id=?");
+            preparedStatement.setString(3, role.toSqlName());
+            preparedStatement.setObject(4, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static Profile getById(UUID id) {
+    @Override
+    public Profile getById(UUID id) {
         Profile p = new Profile();
         try {
+            assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM profiles WHERE id=? LIMIT 1");
             preparedStatement.setObject(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 p = new Profile(
-                        (UUID)resultSet.getObject("id"),
+                        (UUID) resultSet.getObject("id"),
                         resultSet.getString("login"),
                         resultSet.getString("password_hash"),
-                        ProfileRole.sqlToValue.get(resultSet.getString("role"))
+                        ProfileRole.fromSqlName(resultSet.getString("role"))
                 );
             }
         } catch (SQLException e) {

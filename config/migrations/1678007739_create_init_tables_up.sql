@@ -34,7 +34,7 @@ CREATE TABLE profiles (
 CREATE TABLE accounts (
     id uuid DEFAULT gen_random_uuid () PRIMARY KEY,
     profile_id uuid REFERENCES profiles (id) NOT NULL,
-    account_type account_type DEFAULT 'default' NOT NULL,
+    type account_type DEFAULT 'default' NOT NULL,
     balance DECIMAL(15, 2) DEFAULT 0 NOT NULL,
     status account_status DEFAULT 'open' NOT NULL,
     expired_at timestamp,
@@ -61,7 +61,7 @@ CREATE TABLE transactions (
     src_account uuid REFERENCES accounts (id) ,
     dst_account uuid REFERENCES accounts (id),
     volume DECIMAL(15,2) NOT NULL,
-    transaction_type transaction_type NOT NULL,
+    type transaction_type NOT NULL,
     executed_at timestamp DEFAULT NOW(),
     created_at timestamp DEFAULT NOW(),
     updated_at timestamp DEFAULT NOW()
