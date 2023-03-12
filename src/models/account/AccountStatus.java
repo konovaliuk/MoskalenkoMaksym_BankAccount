@@ -19,6 +19,7 @@ public enum AccountStatus {
     AccountStatus(String value) {
         sqlName = value;
     }
+
     public String toSqlName() {
         return sqlName;
     }

@@ -21,6 +21,7 @@ public enum ProfileRole {
     ProfileRole(String value) {
         sqlName = value;
     }
+
     public String toSqlName() {
         return sqlName;
     }

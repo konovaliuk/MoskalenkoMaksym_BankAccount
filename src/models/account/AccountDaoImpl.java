@@ -1,18 +1,16 @@
 package models.account;
 
 import db.DatabaseConnection;
-import models.profile.Profile;
-import models.profile.ProfileRole;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 public class AccountDaoImpl implements AccountDao {
     private static final Connection connection = DatabaseConnection.getConnection();
 
+    @Override
     public void create(Account a) {
         try {
             assert connection != null;
@@ -34,6 +32,7 @@ public class AccountDaoImpl implements AccountDao {
         }
     }
 
+    @Override
     public void openAccount(UUID id) {
         try {
             assert connection != null;
@@ -49,6 +48,7 @@ public class AccountDaoImpl implements AccountDao {
         }
     }
 
+    @Override
     public void closeAccount(UUID id) {
         try {
             assert connection != null;
@@ -64,6 +64,7 @@ public class AccountDaoImpl implements AccountDao {
         }
     }
 
+    @Override
     public Account getById(UUID id) {
         Account a = new Account();
         try {
@@ -89,8 +90,9 @@ public class AccountDaoImpl implements AccountDao {
         return a;
     }
 
+    @Override
     public List<Account> getByProfileId(UUID profileId) {
-        List<Account> accounts = new ArrayList<>();
+        List<Account> accounts = new ArrayList<Account>();
         try {
             assert connection != null;
 

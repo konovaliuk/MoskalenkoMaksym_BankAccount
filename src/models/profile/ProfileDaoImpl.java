@@ -34,8 +34,8 @@ public class ProfileDaoImpl implements ProfileDao {
             assert connection != null;
             PreparedStatement preparedStatement = connection
                     .prepareStatement("UPDATE profiles SET role=?::profile_role where id=?");
-            preparedStatement.setString(3, role.toSqlName());
-            preparedStatement.setObject(4, id);
+            preparedStatement.setString(1, role.toSqlName());
+            preparedStatement.setObject(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -6,7 +6,8 @@ public class Main {
     public static void main(String[] args) {
         ProfileDaoImpl profileDao = new ProfileDaoImpl();
 
-        Profile p = new Profile("login_1", "lets_imagine_that_its_a_password_hash");
+
+        Profile p = new Profile("login_" + (int)(Math.random()*1_000_000), "lets_imagine_that_its_a_password_hash");
         profileDao.create(p);
 
         profileDao.promote(p.getId(), ProfileRole.SuperAdmin);
