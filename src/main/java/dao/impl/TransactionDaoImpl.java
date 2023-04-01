@@ -1,6 +1,9 @@
-package models.transaction;
+package main.java.dao.impl;
 
 import db.DatabaseConnection;
+import main.java.dao.TransactionDao;
+import main.java.models.Transaction;
+import main.java.types.TransactionType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

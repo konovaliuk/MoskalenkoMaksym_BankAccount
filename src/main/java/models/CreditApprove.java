@@ -1,4 +1,4 @@
-package models.credit_approve;
+package main.java.models;
 
 import java.util.UUID;
 

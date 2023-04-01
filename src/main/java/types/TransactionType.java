@@ -1,4 +1,4 @@
-package models.transaction;
+package main.java.types;
 
 import java.util.Map;
 import java.util.function.Function;

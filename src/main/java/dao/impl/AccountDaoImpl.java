@@ -1,6 +1,10 @@
-package models.account;
+package main.java.dao.impl;
 
 import db.DatabaseConnection;
+import main.java.dao.AccountDao;
+import main.java.models.Account;
+import main.java.types.AccountStatus;
+import main.java.types.AccountType;
 
 import java.sql.*;
 import java.util.ArrayList;

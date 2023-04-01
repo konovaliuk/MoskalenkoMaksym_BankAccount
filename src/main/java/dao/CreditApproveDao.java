@@ -1,4 +1,6 @@
-package models.credit_approve;
+package main.java.dao;
+
+import main.java.models.CreditApprove;
 
 import java.util.List;
 import java.util.UUID;

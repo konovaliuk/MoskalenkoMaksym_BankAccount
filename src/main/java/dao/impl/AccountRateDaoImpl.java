@@ -1,6 +1,8 @@
-package models.account_rate;
+package main.java.dao.impl;
 
 import db.DatabaseConnection;
+import main.java.dao.AccountRateDao;
+import main.java.models.AccountRate;
 
 import java.math.BigDecimal;
 import java.sql.Connection;

@@ -1,6 +1,8 @@
-package models.credit_approve;
+package main.java.dao.impl;
 
 import db.DatabaseConnection;
+import main.java.dao.CreditApproveDao;
+import main.java.models.CreditApprove;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

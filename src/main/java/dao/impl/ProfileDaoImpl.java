@@ -1,6 +1,9 @@
-package models.profile;
+package main.java.dao.impl;
 
 import db.DatabaseConnection;
+import main.java.dao.ProfileDao;
+import main.java.models.Profile;
+import main.java.types.ProfileRole;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

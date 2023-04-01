@@ -1,4 +1,6 @@
-package models.profile;
+package main.java.models;
+
+import main.java.types.ProfileRole;
 
 import java.sql.Timestamp;
 import java.util.UUID;

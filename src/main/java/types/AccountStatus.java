@@ -1,4 +1,4 @@
-package models.account;
+package main.java.types;
 
 import java.util.Map;
 import java.util.function.Function;

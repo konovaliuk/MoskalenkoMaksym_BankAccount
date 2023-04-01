@@ -1,4 +1,6 @@
-package models.account_rate;
+package main.java.dao;
+
+import main.java.models.AccountRate;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package models.account_rate;
+package main.java.models;
 
 import java.math.BigDecimal;
 import java.util.UUID;

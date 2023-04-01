@@ -1,4 +1,7 @@
-package models.account;
+package main.java.models;
+
+import main.java.types.AccountStatus;
+import main.java.types.AccountType;
 
 import java.math.BigDecimal;
 import java.sql.Time;

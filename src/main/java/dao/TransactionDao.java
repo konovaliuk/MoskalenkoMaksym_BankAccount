@@ -1,4 +1,6 @@
-package models.transaction;
+package main.java.dao;
+
+import main.java.models.Transaction;
 
 import java.util.List;
 import java.util.UUID;

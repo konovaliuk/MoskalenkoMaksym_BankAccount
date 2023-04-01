@@ -1,4 +1,4 @@
-package models.profile;
+package main.java.types;
 
 
 import java.util.Map;

@@ -1,6 +1,8 @@
-import models.profile.Profile;
-import models.profile.ProfileDaoImpl;
-import models.profile.ProfileRole;
+package main.java;
+
+import main.java.models.Profile;
+import main.java.dao.impl.ProfileDaoImpl;
+import main.java.types.ProfileRole;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,6 @@
-package models.transaction;
+package main.java.models;
+
+import main.java.types.TransactionType;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

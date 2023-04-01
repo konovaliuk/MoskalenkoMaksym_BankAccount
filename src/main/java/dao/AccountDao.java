@@ -1,4 +1,6 @@
-package models.account;
+package main.java.dao;
+
+import main.java.models.Account;
 
 import java.util.List;
 import java.util.UUID;
