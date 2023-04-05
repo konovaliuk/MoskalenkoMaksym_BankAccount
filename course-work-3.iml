@@ -10,5 +10,6 @@
     <orderEntry type="library" name="zaxxer.HikariCP" level="project" />
     <orderEntry type="library" name="postgresql" level="project" />
     <orderEntry type="library" name="javax.servlet.api" level="project" />
+    <orderEntry type="library" name="javax.servlet.jstl" level="project" />
   </component>
 </module>

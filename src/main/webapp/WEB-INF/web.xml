@@ -8,24 +8,13 @@
     <display-name>My Webapp</display-name>
 
     <servlet>
-        <servlet-name>HelloWorldController</servlet-name>
-        <servlet-class>main.java.controllers.HelloWorldController</servlet-class>
+        <servlet-name>AccountsByIdController</servlet-name>
+        <servlet-class>main.java.controllers.AccountsByIdController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>HelloWorldController</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <servlet-name>AccountsByIdController</servlet-name>
+        <url-pattern>/accounts</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>HolaWorldController</servlet-name>
-        <servlet-class>main.java.controllers.HolaWorldController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>HolaWorldController</servlet-name>
-        <url-pattern>/hola</url-pattern>
-    </servlet-mapping>
-
 
 </web-app>
