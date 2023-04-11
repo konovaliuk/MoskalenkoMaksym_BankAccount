@@ -8,13 +8,33 @@
     <display-name>My Webapp</display-name>
 
     <servlet>
-        <servlet-name>AccountsByIdController</servlet-name>
-        <servlet-class>main.java.controllers.AccountsByIdController</servlet-class>
+        <servlet-name>AccountsByProfileIdController</servlet-name>
+        <servlet-class>main.java.controllers.AccountsByProfileIdController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>AccountsByIdController</servlet-name>
+        <servlet-name>AccountsByProfileIdController</servlet-name>
         <url-pattern>/accounts</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProfileByIdController</servlet-name>
+        <servlet-class>main.java.controllers.ProfileByIdController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ProfileByIdController</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TransactionsByAccountIdController</servlet-name>
+        <servlet-class>main.java.controllers.TransactionsByAccountIdController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TransactionsByAccountIdController</servlet-name>
+        <url-pattern>/transactions</url-pattern>
     </servlet-mapping>
 
 </web-app>
