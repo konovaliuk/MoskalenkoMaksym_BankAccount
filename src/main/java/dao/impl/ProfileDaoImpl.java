@@ -66,4 +66,26 @@ public class ProfileDaoImpl implements ProfileDao {
         }
         return p;
     }
+
+    @Override
+    public Profile getByLogin(String login) {
+        Profile p = null;
+        try {
+            assert connection != null;
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM profiles WHERE login=? LIMIT 1");
+            preparedStatement.setObject(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                p = new Profile(
+                        (UUID) resultSet.getObject("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password_hash"),
+                        ProfileRole.fromSqlName(resultSet.getString("role"))
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return p;
+    }
 }

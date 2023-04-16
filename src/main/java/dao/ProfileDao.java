@@ -12,4 +12,6 @@ public interface ProfileDao {
 
     Profile getById(UUID id);
 
+    Profile getByLogin(String login);
+
 }

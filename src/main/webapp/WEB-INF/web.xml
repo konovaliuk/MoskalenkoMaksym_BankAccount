@@ -1,40 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
-         version="4.0">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name>Bank Account</display-name>
 
-    <display-name>My Webapp</display-name>
-
+    <!-- Define the servlet -->
     <servlet>
-        <servlet-name>AccountsByProfileIdController</servlet-name>
-        <servlet-class>main.java.controllers.AccountsByProfileIdController</servlet-class>
+        <servlet-name>Servlet</servlet-name>
+        <servlet-class>main.java.controller.Servlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>AccountsByProfileIdController</servlet-name>
-        <url-pattern>/accounts</url-pattern>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>ProfileByIdController</servlet-name>
-        <servlet-class>main.java.controllers.ProfileByIdController</servlet-class>
-    </servlet>
-
+    <!-- Map URLs to JSP pages -->
     <servlet-mapping>
-        <servlet-name>ProfileByIdController</servlet-name>
-        <url-pattern>/profile</url-pattern>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/index.jsp</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TransactionsByAccountIdController</servlet-name>
-        <servlet-class>main.java.controllers.TransactionsByAccountIdController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>TransactionsByAccountIdController</servlet-name>
-        <url-pattern>/transactions</url-pattern>
-    </servlet-mapping>
-
 </web-app>
