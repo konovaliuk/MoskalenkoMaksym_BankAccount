@@ -6,7 +6,7 @@ import main.java.types.ProfileRole;
 import java.util.UUID;
 
 public interface ProfileDao {
-    void create(Profile p);
+    UUID create(Profile p);
 
     void promote(UUID id, ProfileRole role);
 

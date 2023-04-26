@@ -6,18 +6,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
-public class SignUpPageCommand implements Command {
+public class CreateAccountPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            if (CookieUtil.getSessionCookie(request) != null) {
-                response.sendRedirect("/");
+            UUID uuid = CookieUtil.getSessionCookie(request);
+
+            if (uuid == null) {
+                response.sendRedirect("/sign_in");
                 return;
             }
 
-            request.getRequestDispatcher("/views/sign_up.jsp").forward(request, response);
-        } catch (IOException | ServletException e) {
+            request.getRequestDispatcher("/views/create_account.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
             throw new RuntimeException(e);
         }
     }

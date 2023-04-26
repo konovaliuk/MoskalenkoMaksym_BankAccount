@@ -1,9 +1,9 @@
 package main.java.controller.command;
 
 import main.java.models.Account;
-import main.java.models.Profile;
+import main.java.models.Transaction;
 import main.java.service.AccountsService;
-import main.java.service.ProfileService;
+import main.java.service.TransactionService;
 import main.java.utils.CookieUtil;
 
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-public class IndexPageCommand implements Command {
+public class AccountPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -24,14 +24,20 @@ public class IndexPageCommand implements Command {
                 return;
             }
 
-            List<Account> accounts = AccountsService.getAccountsByProfileId(uuid);
-            Profile p = ProfileService.getProfileById(uuid);
+            UUID accountId = UUID.fromString(request.getParameter("id"));
+            Account account = AccountsService.getAccountById(accountId);
 
-            request.setAttribute("profile_id", uuid);
-            request.setAttribute("profile_role", p.getRole().toSqlName());
-            request.setAttribute("accounts", accounts);
+            if (!account.getProfileId().equals(uuid)) {
+                response.sendRedirect("/");
+                return;
+            }
 
-            request.getRequestDispatcher("/views/index.jsp").forward(request, response);
+            List<Transaction> transactions = TransactionService.getTransactionsByAccountId(accountId);
+
+            request.setAttribute("transactions", transactions);
+            request.setAttribute("account", account);
+
+            request.getRequestDispatcher("/views/account.jsp").forward(request, response);
         } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }

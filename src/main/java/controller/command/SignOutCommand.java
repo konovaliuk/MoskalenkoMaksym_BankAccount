@@ -7,17 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class SignUpPageCommand implements Command {
+public class SignOutCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            if (CookieUtil.getSessionCookie(request) != null) {
-                response.sendRedirect("/");
-                return;
-            }
+            CookieUtil.removeSessionCookie(response);
 
-            request.getRequestDispatcher("/views/sign_up.jsp").forward(request, response);
-        } catch (IOException | ServletException e) {
+            response.sendRedirect("/sign_in");
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

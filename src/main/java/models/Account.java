@@ -4,7 +4,7 @@ import main.java.types.AccountStatus;
 import main.java.types.AccountType;
 
 import java.math.BigDecimal;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Account {
@@ -14,13 +14,20 @@ public class Account {
     private AccountType type;
     private BigDecimal balance;
     private AccountStatus status;
-    private Time expiredAt;
-    private Time openedAt;
-    private Time closedAt;
-    private Time createdAt;
-    private Time updatedAt;
+    private Timestamp expiredAt;
+    private Timestamp openedAt;
+    private Timestamp closedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public Account() {
+    }
+
+    public Account(UUID profileId, AccountType type, BigDecimal balance) {
+        this.id = UUID.randomUUID();
+        this.profileId = profileId;
+        this.type = type;
+        this.balance = balance;
     }
 
     public Account(
@@ -29,9 +36,9 @@ public class Account {
             AccountType type,
             BigDecimal balance,
             AccountStatus status,
-            Time expiredAt,
-            Time openedAt,
-            Time closedAt
+            Timestamp expiredAt,
+            Timestamp openedAt,
+            Timestamp closedAt
     ) {
         this.id = id;
         this.profileId = profileId;
@@ -66,16 +73,32 @@ public class Account {
         return status;
     }
 
-    public Time getExpiredAt() {
+    public Timestamp getExpiredAt() {
         return expiredAt;
     }
 
 
-    public Time getOpenedAt() {
+    public Timestamp getOpenedAt() {
         return openedAt;
     }
 
-    public Time getClosedAt() {
+    public Timestamp getClosedAt() {
         return closedAt;
+    }
+
+    public void setStatus(AccountStatus s) {
+        this.status = s;
+    }
+
+    public void setOpenedAt(Timestamp t) {
+        this.openedAt = t;
+    }
+
+    public void setExpiredAt(Timestamp t) {
+        this.expiredAt = t;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

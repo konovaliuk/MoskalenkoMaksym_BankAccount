@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -18,11 +18,11 @@
             </div>
             <form action="/sign_in" method="POST" class="flex flex-col gap-6">
                 <div class="flex flex-col gap-1">
-                    <span>Login</span>
+                    <span class="text-sm">Login</span>
                     <input name="login" class="px-2 py-1 bg-[#f7f1e3] border border-[#84817a] rounded-sm"/>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <span>Password</span>
+                    <span class="text-sm">Password</span>
                     <input name="password" class="px-2 py-1 bg-[#f7f1e3] border border-[#84817a] rounded-sm" type="password"/>
                 </div>
                 <div class="flex justify-center w-full">

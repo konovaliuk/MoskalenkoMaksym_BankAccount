@@ -50,7 +50,7 @@ public class Profile {
         this.role = role;
     }
 
-    public void print() {
-        System.out.printf("id: %s\nlogin: %s\npassword_hash: %s\nrole: %s", this.id.toString(), this.login, this.passwordHash, this.role.name());
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

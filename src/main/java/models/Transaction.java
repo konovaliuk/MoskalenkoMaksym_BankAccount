@@ -19,6 +19,15 @@ public class Transaction {
     public Transaction() {
     }
 
+    public Transaction(UUID sourceAccount, UUID destinationAccount, BigDecimal volume, TransactionType type, Timestamp executedAt) {
+        this.id = UUID.randomUUID();
+        this.sourceAccount = sourceAccount;
+        this.destinationAccount = destinationAccount;
+        this.volume = volume;
+        this.type = type;
+        this.executedAt = executedAt;
+    }
+
     public Transaction(UUID id, UUID sourceAccount, UUID destinationAccount, BigDecimal volume,
                        TransactionType type, Timestamp executedAt, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;

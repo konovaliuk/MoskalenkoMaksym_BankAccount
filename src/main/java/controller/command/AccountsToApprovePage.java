@@ -4,6 +4,7 @@ import main.java.models.Account;
 import main.java.models.Profile;
 import main.java.service.AccountsService;
 import main.java.service.ProfileService;
+import main.java.types.ProfileRole;
 import main.java.utils.CookieUtil;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-public class IndexPageCommand implements Command {
+public class AccountsToApprovePage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -24,14 +25,18 @@ public class IndexPageCommand implements Command {
                 return;
             }
 
-            List<Account> accounts = AccountsService.getAccountsByProfileId(uuid);
             Profile p = ProfileService.getProfileById(uuid);
 
-            request.setAttribute("profile_id", uuid);
-            request.setAttribute("profile_role", p.getRole().toSqlName());
+            if (p.getRole() != ProfileRole.Admin && p.getRole() != ProfileRole.SuperAdmin) {
+                response.sendRedirect("/");
+                return;
+            }
+
+            List<Account> accounts = AccountsService.getProcessingCreditRequests();
+
             request.setAttribute("accounts", accounts);
 
-            request.getRequestDispatcher("/views/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/accounts_to_approve.jsp").forward(request, response);
         } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }

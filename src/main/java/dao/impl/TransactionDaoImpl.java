@@ -21,7 +21,7 @@ public class TransactionDaoImpl implements TransactionDao {
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO account_rates(id,src_account,dst_account,volume,type,executed_at) VALUES (?, ?, ?, ?, ?::transaction_type, ?)");
+                    .prepareStatement("INSERT INTO transactions(id,src_account,dst_account,volume,type,executed_at) VALUES (?, ?, ?, ?, ?::transaction_type, ?)");
             preparedStatement.setObject(1, t.getId());
             preparedStatement.setObject(2, t.getSourceAccount());
             preparedStatement.setObject(3, t.getDestinationAccount());

@@ -1,11 +1,13 @@
 package main.java.controller;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(urlPatterns = {"/", "/sign_in", "/sign_up", "/account", "/create_account", "/create_transaction", "/accounts_to_approve", "/credit_approve"})
 public class Servlet extends HttpServlet {
     CommandHelper commandHelper = new CommandHelper();
 
