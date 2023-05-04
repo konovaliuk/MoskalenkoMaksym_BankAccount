@@ -20,25 +20,13 @@ public class AccountRateDaoImpl implements AccountRateDao {
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO account_rates(account_id,cumulative_balance,rate,is_complex_rate) VALUES (?, ?, ?, ?)");
+                    .prepareStatement("INSERT INTO account_rates(account_id,rate,initial_balance,payment_frequency,payments_processed,next_payment_at) VALUES (?, ?, ?, ?, ?, ?)");
             preparedStatement.setObject(1, ar.getAccountId());
-            preparedStatement.setBigDecimal(2, ar.getCumulativeBalance());
-            preparedStatement.setBigDecimal(3, ar.getRate());
-            preparedStatement.setBoolean(4, ar.getIsComplexRate());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateCumulativeBalance(UUID accountId, BigDecimal newBalance) {
-        try {
-            assert connection != null;
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE account_rates SET cumulative_balance=? where account_id=?");
-            preparedStatement.setBigDecimal(1, newBalance);
-            preparedStatement.setObject(2, accountId);
+            preparedStatement.setBigDecimal(2, ar.getRate());
+            preparedStatement.setBigDecimal(3, ar.getInitialBalance());
+            preparedStatement.setInt(4, ar.getPaymentFrequency());
+            preparedStatement.setInt(5, ar.getPaymentsProcessed());
+            preparedStatement.setTimestamp(6, ar.getNextPaymentAt());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,9 +44,11 @@ public class AccountRateDaoImpl implements AccountRateDao {
             if (resultSet.next()) {
                 ar = new AccountRate(
                         (UUID) resultSet.getObject("account_id"),
-                        resultSet.getBigDecimal("cumulative_balance"),
                         resultSet.getBigDecimal("rate"),
-                        resultSet.getBoolean("is_complex_rate")
+                        resultSet.getBigDecimal("initial_balance"),
+                        resultSet.getInt("payment_frequency"),
+                        resultSet.getInt("payments_processed"),
+                        resultSet.getTimestamp("next_payment_at")
                 );
             }
         } catch (SQLException e) {

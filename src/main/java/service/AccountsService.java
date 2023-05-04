@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import main.java.utils.RandomUtil;
+
 
 public class AccountsService {
     private static final AccountDao accountDao = DaoFactory.getAccountDao();
@@ -34,7 +36,7 @@ public class AccountsService {
     }
 
     public static void createAccount(AccountType type, BigDecimal amount, UUID profileId) throws Exception {
-        Account a = new Account(profileId, type, amount);
+        Account a = new Account(profileId, type, amount, RandomUtil.getRandomString(16, "0123456789"));
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
         switch (a.getType()) {
@@ -70,8 +72,8 @@ public class AccountsService {
         return accountDao.getDefaultAccountByProfileId(profileId);
     }
 
-    public static Account validateAccountForTransaction(UUID accountId) throws Exception {
-        Account account = accountDao.getById(accountId);
+    public static Account validateAccountForTransaction(String accountNumber) throws Exception {
+        Account account = accountDao.getByAccountNumber(accountNumber);
 
         if (account == null) {
             throw new Exception("Account does not exist");

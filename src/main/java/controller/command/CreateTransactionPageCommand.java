@@ -27,7 +27,7 @@ public class CreateTransactionPageCommand implements Command {
 
             request.setAttribute("from", from);
             request.setAttribute("to", to);
-            request.setAttribute("defaultAccount", defaultAccount.getId());
+            request.setAttribute("defaultAccount", defaultAccount.getAccountNumber());
 
             request.getRequestDispatcher("/views/create_transaction.jsp").forward(request, response);
         } catch (ServletException | IOException e) {

@@ -1,42 +1,59 @@
 package main.java.models;
 
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class AccountRate {
     private UUID accountId;
-    private BigDecimal cumulativeBalance;
     private BigDecimal rate;
-    private Boolean isComplexRate;
+    private BigDecimal initialBalance;
+    private Integer paymentFrequency;
+    private Integer paymentsProcessed;
+    private Timestamp nextPaymentAt;
+
 
     public AccountRate() {
     }
 
     public AccountRate(
             UUID accountId,
-            BigDecimal cumulativeBalance,
             BigDecimal rate,
-            Boolean isComplexRate
+            BigDecimal initialBalance,
+            Integer paymentFrequency,
+            Integer paymentsProcessed,
+            Timestamp nextPaymentAt
     ) {
         this.accountId = accountId;
-        this.cumulativeBalance = cumulativeBalance;
         this.rate = rate;
-        this.isComplexRate = isComplexRate;
+        this.initialBalance = initialBalance;
+        this.paymentFrequency = paymentFrequency;
+        this.paymentsProcessed = paymentsProcessed;
+        this.nextPaymentAt = nextPaymentAt;
     }
 
     public UUID getAccountId() {
         return accountId;
     }
 
-    public BigDecimal getCumulativeBalance() {
-        return cumulativeBalance;
-    }
-
     public BigDecimal getRate() {
         return rate;
     }
 
-    public Boolean getIsComplexRate() {
-        return isComplexRate;
+    public BigDecimal getInitialBalance() {
+        return initialBalance;
+    }
+
+    public Integer getPaymentFrequency() {
+        return paymentFrequency;
+    }
+
+    public Integer getPaymentsProcessed() {
+        return paymentsProcessed;
+    }
+
+    public Timestamp getNextPaymentAt() {
+        return nextPaymentAt;
     }
 }

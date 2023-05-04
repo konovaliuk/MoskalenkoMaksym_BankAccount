@@ -15,6 +15,8 @@ public interface AccountDao {
 
     Account getById(UUID id);
 
+    Account getByAccountNumber(String accountNumber);
+
     List<Account> getByProfileId(UUID profileId);
 
     Account getDefaultAccountByProfileId(UUID profileId);

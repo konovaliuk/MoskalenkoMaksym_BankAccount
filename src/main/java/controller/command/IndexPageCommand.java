@@ -26,7 +26,7 @@ public class IndexPageCommand implements Command {
             List<Account> accounts = AccountsService.getAccountsByProfileId(uuid);
             Profile p = ProfileService.getProfileById(uuid);
 
-            request.setAttribute("profile_id", uuid);
+            request.setAttribute("login", p.getLogin());
             request.setAttribute("profile_role", p.getRole().toSqlName());
             request.setAttribute("accounts", accounts);
 

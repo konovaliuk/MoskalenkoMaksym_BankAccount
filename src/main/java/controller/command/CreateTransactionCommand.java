@@ -26,7 +26,7 @@ public class CreateTransactionCommand implements Command {
             BigDecimal amount = new BigDecimal(request.getParameter("amount"));
 
             try {
-                TransactionService.handleTransactionCreation(UUID.fromString(sourceAccount), isSourceExternal, UUID.fromString(destinationAccount), isDestinationExternal, amount, uuid);
+                TransactionService.handleTransactionCreation(sourceAccount, isSourceExternal, destinationAccount, isDestinationExternal, amount, uuid);
             } catch (Exception e) {
                 // TODO: return error message as an alert
                 throw new RuntimeException(e);

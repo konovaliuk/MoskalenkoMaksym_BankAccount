@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -11,7 +12,7 @@
         <div class="bg-[#f7f1e3] h-full w-full rounded-md">
             <div class="w-full flex flex-row border-b border-[#84817a] justify-between items-center px-6 py-3">
                 <span class="text-lg font-bold">
-                    <c:out value="${account.id}"/>
+                    Account number: <c:out value="${fn:substring(account.accountNumber, 0, 4)} ${fn:substring(account.accountNumber, 4, 8)} ${fn:substring(account.accountNumber, 8, 12)} ${fn:substring(account.accountNumber, 12, 16)}" />
                 </span>
                 <div class="flex flex-row gap-3 items-center">
                     <form  action="/" method="get" class="m-0">

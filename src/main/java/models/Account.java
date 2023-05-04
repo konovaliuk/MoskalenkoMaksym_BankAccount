@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Account {
     private UUID id;
     private UUID profileId;
-
+    private String accountNumber;
     private AccountType type;
     private BigDecimal balance;
     private AccountStatus status;
@@ -23,16 +23,18 @@ public class Account {
     public Account() {
     }
 
-    public Account(UUID profileId, AccountType type, BigDecimal balance) {
+    public Account(UUID profileId, AccountType type, BigDecimal balance, String accountNumber) {
         this.id = UUID.randomUUID();
         this.profileId = profileId;
         this.type = type;
         this.balance = balance;
+        this.accountNumber = accountNumber;
     }
 
     public Account(
             UUID id,
             UUID profileId,
+            String accountNumber,
             AccountType type,
             BigDecimal balance,
             AccountStatus status,
@@ -42,6 +44,7 @@ public class Account {
     ) {
         this.id = id;
         this.profileId = profileId;
+        this.accountNumber = accountNumber;
         this.type = type;
         this.balance = balance;
         this.status = status;
@@ -58,6 +61,9 @@ public class Account {
         return profileId;
     }
 
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
     public AccountType getType() {
         return type;
