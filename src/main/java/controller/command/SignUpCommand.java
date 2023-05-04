@@ -4,7 +4,6 @@ import main.java.models.Profile;
 import main.java.service.AccountsService;
 import main.java.service.ProfileService;
 import main.java.types.AccountType;
-import main.java.utils.CookieUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ public class SignUpCommand implements Command {
             Profile p = ProfileService.signUp(login, password);
 
             if (p != null) {
-                CookieUtil.setSessionCookie(response, p.getId());
+                request.getSession().setAttribute("profileId", p.getId());
                 AccountsService.createAccount(AccountType.Default, new BigDecimal(0), p.getId());
 
                 response.sendRedirect("/");

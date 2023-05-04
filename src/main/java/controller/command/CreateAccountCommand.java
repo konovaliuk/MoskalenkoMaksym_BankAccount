@@ -2,7 +2,6 @@ package main.java.controller.command;
 
 import main.java.service.AccountsService;
 import main.java.types.AccountType;
-import main.java.utils.CookieUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,7 @@ public class CreateAccountCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = CookieUtil.getSessionCookie(request);
+            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
 
             if (uuid == null) {
                 response.sendRedirect("/sign_in");

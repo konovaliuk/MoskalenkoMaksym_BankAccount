@@ -4,7 +4,6 @@ import main.java.models.Account;
 import main.java.models.Transaction;
 import main.java.service.AccountsService;
 import main.java.service.TransactionService;
-import main.java.utils.CookieUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ public class AccountPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = CookieUtil.getSessionCookie(request);
+            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
 
             if (uuid == null) {
                 response.sendRedirect("/sign_in");

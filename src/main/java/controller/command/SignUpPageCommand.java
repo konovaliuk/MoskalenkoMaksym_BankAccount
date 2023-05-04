@@ -1,7 +1,5 @@
 package main.java.controller.command;
 
-import main.java.utils.CookieUtil;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +9,7 @@ public class SignUpPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            if (CookieUtil.getSessionCookie(request) != null) {
+            if (request.getSession().getAttribute("profileId") != null) {
                 response.sendRedirect("/");
                 return;
             }

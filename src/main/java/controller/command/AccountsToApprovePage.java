@@ -5,7 +5,6 @@ import main.java.models.Profile;
 import main.java.service.AccountsService;
 import main.java.service.ProfileService;
 import main.java.types.ProfileRole;
-import main.java.utils.CookieUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ public class AccountsToApprovePage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = CookieUtil.getSessionCookie(request);
+            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
 
             if (uuid == null) {
                 response.sendRedirect("/sign_in");

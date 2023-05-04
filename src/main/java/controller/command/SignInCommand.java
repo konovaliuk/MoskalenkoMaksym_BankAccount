@@ -2,7 +2,6 @@ package main.java.controller.command;
 
 import main.java.models.Profile;
 import main.java.service.ProfileService;
-import main.java.utils.CookieUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ public class SignInCommand implements Command {
             Profile p = ProfileService.signIn(login, password);
 
             if (p != null) {
-                CookieUtil.setSessionCookie(response, p.getId());
+                request.getSession().setAttribute("profileId", p.getId());
 
                 response.sendRedirect("/");
             } else {
