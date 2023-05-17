@@ -1,16 +1,14 @@
-package main.java.dao;
+package dao;
 
-import main.java.models.Profile;
-import main.java.types.ProfileRole;
+import models.Profile;
 
-import java.util.UUID;
 
 public interface ProfileDao {
-    UUID create(Profile p);
+    Long create(Profile p);
 
-    void promote(UUID id, ProfileRole role);
+    void promote(Long id, String role);
 
-    Profile getById(UUID id);
+    Profile getById(Long id);
 
     Profile getByLogin(String login);
 

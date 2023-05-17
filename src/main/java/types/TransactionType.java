@@ -1,4 +1,4 @@
-package main.java.types;
+package types;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -10,22 +10,21 @@ public enum TransactionType {
     Deposit("deposit"),
     Withdraw("withdraw");
 
-    private final String sqlName;
-
     private static final Map<String, TransactionType> sqlToValue = Stream.of(values()).
             collect(Collectors.toMap(TransactionType::toSqlName, Function.identity()));
+    private final String sqlName;
 
 
     TransactionType(String value) {
         sqlName = value;
     }
 
-    public String toSqlName() {
-        return sqlName;
-    }
-
     public static TransactionType fromSqlName(String name) {
         return sqlToValue.get(name);
+    }
+
+    public String toSqlName() {
+        return sqlName;
     }
 
 }

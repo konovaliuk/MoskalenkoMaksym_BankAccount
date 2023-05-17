@@ -1,14 +1,9 @@
-package main.java.dao;
+package dao;
 
-import main.java.models.CreditApprove;
-
-import java.util.List;
-import java.util.UUID;
+import models.CreditApprove;
 
 public interface CreditApproveDao {
     void create(CreditApprove ca);
 
-    CreditApprove getByAccountId(UUID accountId);
-
-    List<CreditApprove> getByApproverId(UUID approverId);
+    CreditApprove getByAccountId(Long accountId);
 }

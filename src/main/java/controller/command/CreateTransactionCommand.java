@@ -1,20 +1,20 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.service.TransactionService;
+import service.TransactionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.UUID;
+
 
 public class CreateTransactionCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
+            Long id = (Long) request.getSession().getAttribute("profileId");
 
-            if (uuid == null) {
+            if (id == null) {
                 response.sendRedirect("/sign_in");
                 return;
             }
@@ -26,7 +26,7 @@ public class CreateTransactionCommand implements Command {
             BigDecimal amount = new BigDecimal(request.getParameter("amount"));
 
             try {
-                TransactionService.handleTransactionCreation(sourceAccount, isSourceExternal, destinationAccount, isDestinationExternal, amount, uuid);
+                TransactionService.handleTransactionCreation(sourceAccount, isSourceExternal, destinationAccount, isDestinationExternal, amount, id);
             } catch (Exception e) {
                 // TODO: return error message as an alert
                 throw new RuntimeException(e);

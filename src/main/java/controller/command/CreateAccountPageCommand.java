@@ -1,18 +1,18 @@
-package main.java.controller.command;
+package controller.command;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
+
 
 public class CreateAccountPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
+            Long id = (Long) request.getSession().getAttribute("profileId");
 
-            if (uuid == null) {
+            if (id == null) {
                 response.sendRedirect("/sign_in");
                 return;
             }

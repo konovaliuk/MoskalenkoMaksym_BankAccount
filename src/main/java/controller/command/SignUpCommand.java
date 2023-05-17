@@ -1,9 +1,9 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.models.Profile;
-import main.java.service.AccountsService;
-import main.java.service.ProfileService;
-import main.java.types.AccountType;
+import models.Profile;
+import service.AccountsService;
+import service.ProfileService;
+import types.AccountType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

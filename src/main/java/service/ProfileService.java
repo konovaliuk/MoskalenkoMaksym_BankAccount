@@ -1,11 +1,10 @@
-package main.java.service;
+package service;
 
-import main.java.dao.ProfileDao;
-import main.java.dao.factory.DaoFactory;
-import main.java.models.Profile;
-import main.java.utils.HashUtil;
+import dao.ProfileDao;
+import dao.factory.DaoFactory;
+import models.Profile;
+import utils.HashUtil;
 
-import java.util.UUID;
 
 public class ProfileService {
     private static final ProfileDao profileDao = DaoFactory.getProfileDao();
@@ -14,7 +13,7 @@ public class ProfileService {
         Profile p = profileDao.getByLogin(login);
         if (p == null) {
             p = new Profile(login, HashUtil.sha256(password));
-            UUID id = profileDao.create(p);
+            Long id = profileDao.create(p);
 
             p.setId(id);
 
@@ -32,7 +31,7 @@ public class ProfileService {
         return null;
     }
 
-    public static Profile getProfileById(UUID id) {
+    public static Profile getProfileById(Long id) {
         return profileDao.getById(id);
     }
 }

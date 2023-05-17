@@ -1,15 +1,14 @@
-package main.java.dao.impl;
+package dao.impl;
 
+import dao.AccountRateDao;
 import db.DatabaseConnection;
-import main.java.dao.AccountRateDao;
-import main.java.models.AccountRate;
+import models.AccountRate;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
+
 
 public class AccountRateDaoImpl implements AccountRateDao {
 
@@ -34,7 +33,7 @@ public class AccountRateDaoImpl implements AccountRateDao {
     }
 
     @Override
-    public AccountRate getByAccountId(UUID accountId) {
+    public AccountRate getByAccountId(Long accountId) {
         AccountRate ar = new AccountRate();
         try {
             assert connection != null;
@@ -43,7 +42,7 @@ public class AccountRateDaoImpl implements AccountRateDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 ar = new AccountRate(
-                        (UUID) resultSet.getObject("account_id"),
+                        (Long) resultSet.getObject("account_id"),
                         resultSet.getBigDecimal("rate"),
                         resultSet.getBigDecimal("initial_balance"),
                         resultSet.getInt("payment_frequency"),

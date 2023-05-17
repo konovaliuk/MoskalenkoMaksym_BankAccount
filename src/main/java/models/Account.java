@@ -1,30 +1,55 @@
-package main.java.models;
+package models;
 
-import main.java.types.AccountStatus;
-import main.java.types.AccountType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "accounts")
 public class Account {
-    private UUID id;
-    private UUID profileId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "profile_id")
+    private Long profileId;
+
+    @Column(name = "account_number")
     private String accountNumber;
-    private AccountType type;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "balance")
     private BigDecimal balance;
-    private AccountStatus status;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "expired_at")
     private Timestamp expiredAt;
+
+    @Column(name = "opened_at")
     private Timestamp openedAt;
+
+    @Column(name = "closed_at")
     private Timestamp closedAt;
+
+    @Column(name = "created_at")
     private Timestamp createdAt;
+
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    public Account() {
-    }
-
-    public Account(UUID profileId, AccountType type, BigDecimal balance, String accountNumber) {
-        this.id = UUID.randomUUID();
+    public Account(Long profileId, String type, BigDecimal balance, String accountNumber) {
         this.profileId = profileId;
         this.type = type;
         this.balance = balance;
@@ -32,12 +57,12 @@ public class Account {
     }
 
     public Account(
-            UUID id,
-            UUID profileId,
+            Long id,
+            Long profileId,
             String accountNumber,
-            AccountType type,
+            String type,
             BigDecimal balance,
-            AccountStatus status,
+            String status,
             Timestamp expiredAt,
             Timestamp openedAt,
             Timestamp closedAt
@@ -51,60 +76,5 @@ public class Account {
         this.expiredAt = expiredAt;
         this.openedAt = openedAt;
         this.closedAt = closedAt;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public UUID getProfileId() {
-        return profileId;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public AccountType getType() {
-        return type;
-    }
-
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-
-    public AccountStatus getStatus() {
-        return status;
-    }
-
-    public Timestamp getExpiredAt() {
-        return expiredAt;
-    }
-
-
-    public Timestamp getOpenedAt() {
-        return openedAt;
-    }
-
-    public Timestamp getClosedAt() {
-        return closedAt;
-    }
-
-    public void setStatus(AccountStatus s) {
-        this.status = s;
-    }
-
-    public void setOpenedAt(Timestamp t) {
-        this.openedAt = t;
-    }
-
-    public void setExpiredAt(Timestamp t) {
-        this.expiredAt = t;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
     }
 }

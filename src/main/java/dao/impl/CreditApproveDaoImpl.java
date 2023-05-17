@@ -1,16 +1,14 @@
-package main.java.dao.impl;
+package dao.impl;
 
+import dao.CreditApproveDao;
 import db.DatabaseConnection;
-import main.java.dao.CreditApproveDao;
-import main.java.models.CreditApprove;
+import models.CreditApprove;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
 
 public class CreditApproveDaoImpl implements CreditApproveDao {
     private static final Connection connection = DatabaseConnection.getConnection();
@@ -30,7 +28,7 @@ public class CreditApproveDaoImpl implements CreditApproveDao {
     }
 
     @Override
-    public CreditApprove getByAccountId(UUID accountId) {
+    public CreditApprove getByAccountId(Long accountId) {
         CreditApprove ca = new CreditApprove();
         try {
             assert connection != null;
@@ -39,34 +37,13 @@ public class CreditApproveDaoImpl implements CreditApproveDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 ca = new CreditApprove(
-                        (UUID) resultSet.getObject("account_id"),
-                        (UUID) resultSet.getObject("approver_id")
+                        (Long) resultSet.getObject("account_id"),
+                        (Long) resultSet.getObject("approver_id")
                 );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return ca;
-    }
-
-    @Override
-    public List<CreditApprove> getByApproverId(UUID approverId) {
-        List<CreditApprove> creditApproves = new ArrayList<CreditApprove>();
-        try {
-            assert connection != null;
-
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM credit_approves WHERE approver_id=?");
-            preparedStatement.setObject(1, approverId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                creditApproves.add(new CreditApprove(
-                        (UUID) resultSet.getObject("account_id"),
-                        (UUID) resultSet.getObject("approver_id")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return creditApproves;
     }
 }

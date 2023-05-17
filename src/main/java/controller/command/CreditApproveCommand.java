@@ -1,29 +1,29 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.service.AccountsService;
-import main.java.types.AccountStatus;
+import service.AccountsService;
+import types.AccountStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
+
 
 public class CreditApproveCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
+            Long id = (Long) request.getSession().getAttribute("profileId");
 
-            if (uuid == null) {
+            if (id == null) {
                 response.sendRedirect("/sign_in");
                 return;
             }
 
-            UUID accountId = UUID.fromString(request.getParameter("account_id"));
+            Long accountId = Long.parseLong(request.getParameter("account_id"));
             AccountStatus status = AccountStatus.fromSqlName(request.getParameter("status"));
 
             try {
-                AccountsService.changeCreditApprove(accountId, status, uuid);
+                AccountsService.changeCreditApprove(accountId, status, id);
             } catch (Exception e) {
                 // TODO: return error message as an alert
                 throw new RuntimeException(e);

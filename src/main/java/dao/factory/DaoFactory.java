@@ -1,7 +1,7 @@
-package main.java.dao.factory;
+package dao.factory;
 
-import main.java.dao.*;
-import main.java.dao.impl.*;
+import dao.*;
+import dao.impl.*;
 
 public class DaoFactory {
     private static final AccountDao accountDao = new AccountDaoImpl();

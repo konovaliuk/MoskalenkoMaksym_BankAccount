@@ -1,4 +1,4 @@
-package main.java.types;
+package types;
 
 
 import java.util.Map;
@@ -12,22 +12,21 @@ public enum ProfileRole {
     Admin("admin"),
     SuperAdmin("superadmin");
 
-    private final String sqlName;
-
     private static final Map<String, ProfileRole> sqlToValue = Stream.of(values()).
             collect(Collectors.toMap(ProfileRole::toSqlName, Function.identity()));
+    private final String sqlName;
 
 
     ProfileRole(String value) {
         sqlName = value;
     }
 
-    public String toSqlName() {
-        return sqlName;
-    }
-
     public static ProfileRole fromSqlName(String name) {
         return sqlToValue.get(name);
+    }
+
+    public String toSqlName() {
+        return sqlName;
     }
 
 }

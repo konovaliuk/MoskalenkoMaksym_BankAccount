@@ -1,68 +1,46 @@
-package main.java.models;
+package models;
 
-import main.java.types.TransactionType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "transaction")
 public class Transaction {
-    private UUID id;
-    private UUID sourceAccount;
-    private UUID destinationAccount;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "src_account")
+    private Long sourceAccount;
+
+    @Column(name = "dst_account")
+    private Long destinationAccount;
     private BigDecimal volume;
-    private TransactionType type;
+    private String type;
+
+    @Column(name = "executed_at")
     private Timestamp executedAt;
+
+    @Column(name = "created_at")
     private Timestamp createdAt;
+
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    public Transaction() {
-    }
-
-    public Transaction(UUID sourceAccount, UUID destinationAccount, BigDecimal volume, TransactionType type, Timestamp executedAt) {
-        this.id = UUID.randomUUID();
+    public Transaction(Long sourceAccount, Long destinationAccount, BigDecimal volume, String type, Timestamp executedAt) {
         this.sourceAccount = sourceAccount;
         this.destinationAccount = destinationAccount;
         this.volume = volume;
         this.type = type;
         this.executedAt = executedAt;
-    }
-
-    public Transaction(UUID id, UUID sourceAccount, UUID destinationAccount, BigDecimal volume,
-                       TransactionType type, Timestamp executedAt, Timestamp createdAt, Timestamp updatedAt) {
-        this.id = id;
-        this.sourceAccount = sourceAccount;
-        this.destinationAccount = destinationAccount;
-        this.volume = volume;
-        this.type = type;
-        this.executedAt = executedAt;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-
-    public UUID getId() {
-        return id;
-    }
-
-    public UUID getSourceAccount() {
-        return sourceAccount;
-    }
-
-    public UUID getDestinationAccount() {
-        return destinationAccount;
-    }
-
-    public BigDecimal getVolume() {
-        return volume;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public Timestamp getExecutedAt() {
-        return executedAt;
     }
 }
 

@@ -1,20 +1,19 @@
-package main.java.dao.impl;
+package dao.impl;
 
+import dao.ProfileDao;
 import db.DatabaseConnection;
-import main.java.dao.ProfileDao;
-import main.java.models.Profile;
-import main.java.types.ProfileRole;
+import models.Profile;
 
 import java.sql.*;
-import java.util.UUID;
+
 
 public class ProfileDaoImpl implements ProfileDao {
 
     private static final Connection connection = DatabaseConnection.getConnection();
 
     @Override
-    public UUID create(Profile p) {
-        UUID generatedId = null;
+    public Long create(Profile p) {
+        Long generatedId = null;
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection
@@ -22,13 +21,13 @@ public class ProfileDaoImpl implements ProfileDao {
             preparedStatement.setObject(1, p.getId());
             preparedStatement.setString(2, p.getLogin());
             preparedStatement.setString(3, p.getPasswordHash());
-            preparedStatement.setString(4, p.getRole().toSqlName());
+            preparedStatement.setString(4, p.getRole());
 
             preparedStatement.executeUpdate();
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                generatedId = (UUID) generatedKeys.getObject(1);
+                generatedId = (Long) generatedKeys.getObject(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,12 +37,12 @@ public class ProfileDaoImpl implements ProfileDao {
     }
 
     @Override
-    public void promote(UUID id, ProfileRole role) {
+    public void promote(Long id, String role) {
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection
                     .prepareStatement("UPDATE profiles SET role=?::profile_role where id=?");
-            preparedStatement.setString(1, role.toSqlName());
+            preparedStatement.setString(1, role);
             preparedStatement.setObject(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -52,7 +51,7 @@ public class ProfileDaoImpl implements ProfileDao {
     }
 
     @Override
-    public Profile getById(UUID id) {
+    public Profile getById(Long id) {
         Profile p = new Profile();
         try {
             assert connection != null;
@@ -61,10 +60,10 @@ public class ProfileDaoImpl implements ProfileDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 p = new Profile(
-                        (UUID) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("id"),
                         resultSet.getString("login"),
                         resultSet.getString("password_hash"),
-                        ProfileRole.fromSqlName(resultSet.getString("role"))
+                        resultSet.getString("role")
                 );
             }
         } catch (SQLException e) {
@@ -83,10 +82,10 @@ public class ProfileDaoImpl implements ProfileDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 p = new Profile(
-                        (UUID) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("id"),
                         resultSet.getString("login"),
                         resultSet.getString("password_hash"),
-                        ProfileRole.fromSqlName(resultSet.getString("role"))
+                        resultSet.getString("role")
                 );
             }
         } catch (SQLException e) {

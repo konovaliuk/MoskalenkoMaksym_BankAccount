@@ -1,4 +1,4 @@
-package main.java.types;
+package types;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -10,21 +10,20 @@ public enum AccountStatus {
     Open("open"),
     Closed("closed");
 
-    private final String sqlName;
-
     private static final Map<String, AccountStatus> sqlToValue = Stream.of(values()).
             collect(Collectors.toMap(AccountStatus::toSqlName, Function.identity()));
+    private final String sqlName;
 
 
     AccountStatus(String value) {
         sqlName = value;
     }
 
-    public String toSqlName() {
-        return sqlName;
-    }
-
     public static AccountStatus fromSqlName(String name) {
         return sqlToValue.get(name);
+    }
+
+    public String toSqlName() {
+        return sqlName;
     }
 }

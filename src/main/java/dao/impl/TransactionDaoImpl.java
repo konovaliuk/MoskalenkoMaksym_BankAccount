@@ -1,9 +1,8 @@
-package main.java.dao.impl;
+package dao.impl;
 
+import dao.TransactionDao;
 import db.DatabaseConnection;
-import main.java.dao.TransactionDao;
-import main.java.models.Transaction;
-import main.java.types.TransactionType;
+import models.Transaction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 public class TransactionDaoImpl implements TransactionDao {
     private static final Connection connection = DatabaseConnection.getConnection();
@@ -26,7 +25,7 @@ public class TransactionDaoImpl implements TransactionDao {
             preparedStatement.setObject(2, t.getSourceAccount());
             preparedStatement.setObject(3, t.getDestinationAccount());
             preparedStatement.setBigDecimal(4, t.getVolume());
-            preparedStatement.setString(5, t.getType().toSqlName());
+            preparedStatement.setString(5, t.getType());
             preparedStatement.setTimestamp(6, t.getExecutedAt());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -35,7 +34,7 @@ public class TransactionDaoImpl implements TransactionDao {
     }
 
     @Override
-    public List<Transaction> getByAccountId(UUID accountId) {
+    public List<Transaction> getByAccountId(Long accountId) {
         List<Transaction> transactions = new ArrayList<Transaction>();
         try {
             assert connection != null;
@@ -46,11 +45,11 @@ public class TransactionDaoImpl implements TransactionDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 transactions.add(new Transaction(
-                        (UUID) resultSet.getObject("id"),
-                        (UUID) resultSet.getObject("src_account"),
-                        (UUID) resultSet.getObject("dst_account"),
+                        (Long) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("src_account"),
+                        (Long) resultSet.getObject("dst_account"),
                         resultSet.getBigDecimal("volume"),
-                        TransactionType.fromSqlName(resultSet.getString("type")),
+                        resultSet.getString("type"),
                         resultSet.getTimestamp("executed_at"),
                         resultSet.getTimestamp("created_at"),
                         resultSet.getTimestamp("updated_at")
