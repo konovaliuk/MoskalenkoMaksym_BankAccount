@@ -1,56 +1,48 @@
-package main.java.models;
+package models;
 
-import main.java.types.ProfileRole;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import types.ProfileRole;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "profiles")
 public class Profile {
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "login")
     private String login;
+
+    @Column(name = "password_hash")
     private String passwordHash;
-    private ProfileRole role;
+
+    @Column(name = "role")
+    private String role;
+
+    @Column(name = "created_at")
     private Timestamp createdAt;
+
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
     public Profile(String login, String passwordHash) {
-        this.id = UUID.randomUUID();
         this.login = login;
         this.passwordHash = passwordHash;
-        this.role = ProfileRole.User;
+        this.role = ProfileRole.User.toSqlName();
     }
 
-    public Profile(UUID id, String login, String passwordHash, ProfileRole role) {
+    public Profile(Long id, String login, String passwordHash, String role) {
         this.id = id;
         this.login = login;
         this.passwordHash = passwordHash;
         this.role = role;
-    }
-
-    public Profile() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public ProfileRole getRole() {
-        return role;
-    }
-
-    public void setRole(ProfileRole role) {
-        this.role = role;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 }

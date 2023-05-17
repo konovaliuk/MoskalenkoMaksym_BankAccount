@@ -1,12 +1,11 @@
-package main.java.dao;
+package dao;
 
-import main.java.models.AccountRate;
+import models.AccountRate;
 
-import java.math.BigDecimal;
-import java.util.UUID;
+
 
 public interface AccountRateDao {
     void create(AccountRate ar);
 
-    AccountRate getByAccountId(UUID accountId);
+    AccountRate getByAccountId(Long accountId);
 }

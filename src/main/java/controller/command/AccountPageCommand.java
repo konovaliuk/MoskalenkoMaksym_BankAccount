@@ -1,32 +1,32 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.models.Account;
-import main.java.models.Transaction;
-import main.java.service.AccountsService;
-import main.java.service.TransactionService;
+import models.Account;
+import models.Transaction;
+import service.AccountsService;
+import service.TransactionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
+
 
 public class AccountPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
+            Long id = (Long) request.getSession().getAttribute("profileId");
 
-            if (uuid == null) {
+            if (id == null) {
                 response.sendRedirect("/sign_in");
                 return;
             }
 
-            UUID accountId = UUID.fromString(request.getParameter("id"));
+            Long accountId = Long.parseLong(request.getParameter("id"));
             Account account = AccountsService.getAccountById(accountId);
 
-            if (!account.getProfileId().equals(uuid)) {
+            if (!account.getProfileId().equals(id)) {
                 response.sendRedirect("/");
                 return;
             }

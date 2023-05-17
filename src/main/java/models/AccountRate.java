@@ -1,59 +1,34 @@
-package main.java.models;
+package models;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "account_rates")
 public class AccountRate {
-    private UUID accountId;
+    @Id
+    @Column(name= "account_id")
+    private Long accountId;
+
     private BigDecimal rate;
+
+    @Column(name= "initial_balance")
     private BigDecimal initialBalance;
+
+    @Column(name= "payment_frequency")
     private Integer paymentFrequency;
+
+    @Column(name= "payment_processed")
     private Integer paymentsProcessed;
+
+    @Column(name= "next_payment_at")
     private Timestamp nextPaymentAt;
-
-
-    public AccountRate() {
-    }
-
-    public AccountRate(
-            UUID accountId,
-            BigDecimal rate,
-            BigDecimal initialBalance,
-            Integer paymentFrequency,
-            Integer paymentsProcessed,
-            Timestamp nextPaymentAt
-    ) {
-        this.accountId = accountId;
-        this.rate = rate;
-        this.initialBalance = initialBalance;
-        this.paymentFrequency = paymentFrequency;
-        this.paymentsProcessed = paymentsProcessed;
-        this.nextPaymentAt = nextPaymentAt;
-    }
-
-    public UUID getAccountId() {
-        return accountId;
-    }
-
-    public BigDecimal getRate() {
-        return rate;
-    }
-
-    public BigDecimal getInitialBalance() {
-        return initialBalance;
-    }
-
-    public Integer getPaymentFrequency() {
-        return paymentFrequency;
-    }
-
-    public Integer getPaymentsProcessed() {
-        return paymentsProcessed;
-    }
-
-    public Timestamp getNextPaymentAt() {
-        return nextPaymentAt;
-    }
 }

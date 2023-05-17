@@ -1,16 +1,15 @@
-package main.java.dao.impl;
+package dao.impl;
 
 import db.DatabaseConnection;
-import main.java.dao.AccountDao;
-import main.java.models.Account;
-import main.java.types.AccountStatus;
-import main.java.types.AccountType;
+import dao.AccountDao;
+import models.Account;
+import types.AccountStatus;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 public class AccountDaoImpl implements AccountDao {
     private static final Connection connection = DatabaseConnection.getConnection();
@@ -24,9 +23,9 @@ public class AccountDaoImpl implements AccountDao {
                             "VALUES (?, ?, ?::account_type, ?, ?::account_status, ?, ?, ?, ?)");
             preparedStatement.setObject(1, a.getId());
             preparedStatement.setObject(2, a.getProfileId());
-            preparedStatement.setString(3, a.getType().toSqlName());
+            preparedStatement.setString(3, a.getType());
             preparedStatement.setBigDecimal(4, a.getBalance());
-            preparedStatement.setString(5, a.getStatus().toSqlName());
+            preparedStatement.setString(5, a.getStatus());
             preparedStatement.setTimestamp(6, a.getExpiredAt());
             preparedStatement.setTimestamp(7, a.getOpenedAt());
             preparedStatement.setTimestamp(8, a.getClosedAt());
@@ -39,7 +38,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void openAccount(UUID id) {
+    public void openAccount(Long id) {
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection
@@ -55,7 +54,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void closeAccount(UUID id) {
+    public void closeAccount(Long id) {
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection
@@ -71,7 +70,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public Account getById(UUID id) {
+    public Account getById(Long id) {
         Account a = new Account();
         try {
             assert connection != null;
@@ -80,12 +79,12 @@ public class AccountDaoImpl implements AccountDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 a = new Account(
-                        (UUID) resultSet.getObject("id"),
-                        (UUID) resultSet.getObject("profile_id"),
+                        (Long) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("profile_id"),
                         resultSet.getString("account_number"),
-                        AccountType.fromSqlName(resultSet.getString("type")),
+                        resultSet.getString("type"),
                         resultSet.getBigDecimal("balance"),
-                        AccountStatus.fromSqlName(resultSet.getString("status")),
+                        resultSet.getString("status"),
                         resultSet.getTimestamp("expired_at"),
                         resultSet.getTimestamp("opened_at"),
                         resultSet.getTimestamp("closed_at")
@@ -98,7 +97,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public List<Account> getByProfileId(UUID profileId) {
+    public List<Account> getByProfileId(Long profileId) {
         List<Account> accounts = new ArrayList<Account>();
         try {
             assert connection != null;
@@ -108,12 +107,12 @@ public class AccountDaoImpl implements AccountDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 accounts.add(new Account(
-                        (UUID) resultSet.getObject("id"),
-                        (UUID) resultSet.getObject("profile_id"),
+                        (Long) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("profile_id"),
                         resultSet.getString("account_number"),
-                        AccountType.fromSqlName(resultSet.getString("type")),
+                        resultSet.getString("type"),
                         resultSet.getBigDecimal("balance"),
-                        AccountStatus.fromSqlName(resultSet.getString("status")),
+                        resultSet.getString("status"),
                         resultSet.getTimestamp("expired_at"),
                         resultSet.getTimestamp("opened_at"),
                         resultSet.getTimestamp("closed_at")
@@ -135,12 +134,12 @@ public class AccountDaoImpl implements AccountDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 a = new Account(
-                        (UUID) resultSet.getObject("id"),
-                        (UUID) resultSet.getObject("profile_id"),
+                        (Long) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("profile_id"),
                         resultSet.getString("account_number"),
-                        AccountType.fromSqlName(resultSet.getString("type")),
+                        resultSet.getString("type"),
                         resultSet.getBigDecimal("balance"),
-                        AccountStatus.fromSqlName(resultSet.getString("status")),
+                        resultSet.getString("status"),
                         resultSet.getTimestamp("expired_at"),
                         resultSet.getTimestamp("opened_at"),
                         resultSet.getTimestamp("closed_at")
@@ -153,7 +152,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public Account getDefaultAccountByProfileId(UUID profileId) {
+    public Account getDefaultAccountByProfileId(Long profileId) {
         Account a = new Account();
         try {
             assert connection != null;
@@ -162,12 +161,12 @@ public class AccountDaoImpl implements AccountDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 a = new Account(
-                        (UUID) resultSet.getObject("id"),
-                        (UUID) resultSet.getObject("profile_id"),
+                        (Long) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("profile_id"),
                         resultSet.getString("account_number"),
-                        AccountType.fromSqlName(resultSet.getString("type")),
+                        resultSet.getString("type"),
                         resultSet.getBigDecimal("balance"),
-                        AccountStatus.fromSqlName(resultSet.getString("status")),
+                        resultSet.getString("status"),
                         resultSet.getTimestamp("expired_at"),
                         resultSet.getTimestamp("opened_at"),
                         resultSet.getTimestamp("closed_at")
@@ -190,12 +189,12 @@ public class AccountDaoImpl implements AccountDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 accounts.add(new Account(
-                        (UUID) resultSet.getObject("id"),
-                        (UUID) resultSet.getObject("profile_id"),
+                        (Long) resultSet.getObject("id"),
+                        (Long) resultSet.getObject("profile_id"),
                         resultSet.getString("account_number"),
-                        AccountType.fromSqlName(resultSet.getString("type")),
+                        resultSet.getString("type"),
                         resultSet.getBigDecimal("balance"),
-                        AccountStatus.fromSqlName(resultSet.getString("status")),
+                        resultSet.getString("status"),
                         resultSet.getTimestamp("expired_at"),
                         resultSet.getTimestamp("opened_at"),
                         resultSet.getTimestamp("closed_at")
@@ -208,7 +207,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void updateBalance(UUID id, BigDecimal newBalance) {
+    public void updateBalance(Long id, BigDecimal newBalance) {
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection
@@ -220,4 +219,7 @@ public class AccountDaoImpl implements AccountDao {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void update(Account a) {}
 }

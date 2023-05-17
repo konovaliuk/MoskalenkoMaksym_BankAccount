@@ -1,7 +1,7 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.models.Profile;
-import main.java.service.ProfileService;
+import models.Profile;
+import service.ProfileService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

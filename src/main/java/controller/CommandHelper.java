@@ -1,6 +1,6 @@
-package main.java.controller;
+package controller;
 
-import main.java.controller.command.*;
+import controller.command.*;
 
 import java.util.HashMap;
 import java.util.Map;

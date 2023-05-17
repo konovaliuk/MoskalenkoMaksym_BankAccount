@@ -1,32 +1,33 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.models.Account;
-import main.java.models.Profile;
-import main.java.service.AccountsService;
-import main.java.service.ProfileService;
-import main.java.types.ProfileRole;
+import models.Account;
+import models.Profile;
+import service.AccountsService;
+import service.ProfileService;
+import types.ProfileRole;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
+
 
 public class AccountsToApprovePage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
+            Long id = (Long) request.getSession().getAttribute("profileId");
 
-            if (uuid == null) {
+            if (id == null) {
                 response.sendRedirect("/sign_in");
                 return;
             }
 
-            Profile p = ProfileService.getProfileById(uuid);
+            Profile p = ProfileService.getProfileById(id);
 
-            if (p.getRole() != ProfileRole.Admin && p.getRole() != ProfileRole.SuperAdmin) {
+            if (!Objects.equals(p.getRole(), ProfileRole.Admin.toSqlName()) && !Objects.equals(p.getRole(), ProfileRole.SuperAdmin.toSqlName())) {
                 response.sendRedirect("/");
                 return;
             }

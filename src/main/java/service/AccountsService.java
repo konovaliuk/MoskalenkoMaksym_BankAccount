@@ -1,21 +1,21 @@
-package main.java.service;
+package service;
 
-import main.java.dao.AccountDao;
-import main.java.dao.CreditApproveDao;
-import main.java.dao.factory.DaoFactory;
-import main.java.models.Account;
-import main.java.models.CreditApprove;
-import main.java.models.Profile;
-import main.java.types.AccountStatus;
-import main.java.types.AccountType;
-import main.java.types.ProfileRole;
-import main.java.types.TransactionType;
+import dao.AccountDao;
+import dao.CreditApproveDao;
+import dao.factory.DaoFactory;
+import models.Account;
+import models.CreditApprove;
+import models.Profile;
+import types.AccountStatus;
+import types.AccountType;
+import types.ProfileRole;
+import types.TransactionType;
+import utils.RandomUtil;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
-import main.java.utils.RandomUtil;
+import java.util.Objects;
 
 
 public class AccountsService {
@@ -27,25 +27,25 @@ public class AccountsService {
     // One day
     private static final Long accountExpirationTime = (long) (24 * 60 * 60 * 1000);
 
-    public static List<Account> getAccountsByProfileId(UUID profileId) {
+    public static List<Account> getAccountsByProfileId(Long profileId) {
         return accountDao.getByProfileId(profileId);
     }
 
-    public static Account getAccountById(UUID id) {
+    public static Account getAccountById(Long id) {
         return accountDao.getById(id);
     }
 
-    public static void createAccount(AccountType type, BigDecimal amount, UUID profileId) throws Exception {
-        Account a = new Account(profileId, type, amount, RandomUtil.getRandomString(16, "0123456789"));
+    public static void createAccount(AccountType type, BigDecimal amount, Long profileId) throws Exception {
+        Account a = new Account(profileId, type.toSqlName(), amount, RandomUtil.getRandomString(16, "0123456789"));
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
-        switch (a.getType()) {
+        switch (AccountType.fromSqlName(a.getType())) {
             case Debit -> {
                 Account defaultAccount = accountDao.getDefaultAccountByProfileId(profileId);
                 if (defaultAccount.getBalance().compareTo(a.getBalance()) < 0) {
                     throw new Exception("Not enough funds on default account to open debit account");
                 }
-                a.setStatus(AccountStatus.Open);
+                a.setStatus(AccountStatus.Open.toSqlName());
                 a.setOpenedAt(now);
                 a.setExpiredAt(new Timestamp(now.getTime() + accountExpirationTime));
 
@@ -56,19 +56,19 @@ public class AccountsService {
             }
             case Credit -> {
                 a.setBalance(amount.negate());
-                a.setStatus(AccountStatus.Processing);
+                a.setStatus(AccountStatus.Processing.toSqlName());
                 a.setExpiredAt(new Timestamp(now.getTime() + accountExpirationTime));
 
                 accountDao.create(a);
             }
             case Default -> {
-                a.setStatus(AccountStatus.Open);
+                a.setStatus(AccountStatus.Open.toSqlName());
                 accountDao.create(a);
             }
         }
     }
 
-    public static Account getDefaultAccountByProfileId(UUID profileId) {
+    public static Account getDefaultAccountByProfileId(Long profileId) {
         return accountDao.getDefaultAccountByProfileId(profileId);
     }
 
@@ -79,18 +79,18 @@ public class AccountsService {
             throw new Exception("Account does not exist");
         }
 
-        if (account.getStatus() != AccountStatus.Open) {
+        if (!Objects.equals(account.getStatus(), AccountStatus.Open.toSqlName())) {
             throw new Exception("Account is not opened");
         }
 
         return account;
     }
 
-    public static void closeAccount(UUID accountId) {
+    public static void closeAccount(Long accountId) {
         accountDao.closeAccount(accountId);
     }
 
-    public static void updateBalance(UUID accountId, BigDecimal newBalance) {
+    public static void updateBalance(Long accountId, BigDecimal newBalance) {
         accountDao.updateBalance(accountId, newBalance);
     }
 
@@ -98,20 +98,20 @@ public class AccountsService {
         return accountDao.getProcessingCreditRequests();
     }
 
-    public static void changeCreditApprove(UUID accountId, AccountStatus status, UUID approverId) throws Exception {
+    public static void changeCreditApprove(Long accountId, AccountStatus status, Long approverId) throws Exception {
         Profile approver = ProfileService.getProfileById(approverId);
 
-        if (approver.getRole() != ProfileRole.Admin && approver.getRole() != ProfileRole.SuperAdmin) {
+        if (!Objects.equals(approver.getRole(), ProfileRole.Admin.toSqlName()) && !Objects.equals(approver.getRole(), ProfileRole.SuperAdmin.toSqlName())) {
             throw new Exception("User is not an admin");
         }
 
         Account account = accountDao.getById(accountId);
 
-        if (account.getType() != AccountType.Credit) {
+        if (!Objects.equals(account.getType(), AccountType.Credit.toSqlName())) {
             throw new Exception("Account is not credit account");
         }
 
-        if (account.getStatus() != AccountStatus.Processing) {
+        if (!Objects.equals(account.getStatus(), AccountStatus.Processing.toSqlName())) {
             throw new Exception("Account does not have processing status");
         }
 

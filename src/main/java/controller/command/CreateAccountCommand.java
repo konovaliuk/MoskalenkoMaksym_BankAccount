@@ -1,20 +1,20 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.service.AccountsService;
-import main.java.types.AccountType;
+import service.AccountsService;
+import types.AccountType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.util.UUID;
+
 
 public class CreateAccountCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UUID uuid = (UUID) request.getSession().getAttribute("profileId");
+            Long id = (Long) request.getSession().getAttribute("profileId");
 
-            if (uuid == null) {
+            if (id == null) {
                 response.sendRedirect("/sign_in");
                 return;
             }
@@ -22,7 +22,7 @@ public class CreateAccountCommand implements Command {
             String type = request.getParameter("type");
             String amount = request.getParameter("amount");
 
-            AccountsService.createAccount(AccountType.fromSqlName(type), new BigDecimal(amount), uuid);
+            AccountsService.createAccount(AccountType.fromSqlName(type), new BigDecimal(amount), id);
             response.sendRedirect("/");
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -1,34 +1,34 @@
-package main.java.service;
+package service;
 
-import main.java.dao.TransactionDao;
-import main.java.dao.factory.DaoFactory;
-import main.java.models.Account;
-import main.java.models.Transaction;
-import main.java.types.AccountType;
-import main.java.types.TransactionType;
+import dao.TransactionDao;
+import dao.factory.DaoFactory;
+import models.Account;
+import models.Transaction;
+import types.AccountType;
+import types.TransactionType;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
+
 
 public class TransactionService {
     private static final TransactionDao transactionDao = DaoFactory.getTransactionDao();
 
-    public static List<Transaction> getTransactionsByAccountId(UUID accountId) {
+    public static List<Transaction> getTransactionsByAccountId(Long accountId) {
         return transactionDao.getByAccountId(accountId);
     }
 
-    public static void createTransaction(UUID sourceAccount, UUID destinationAccount, BigDecimal amount, TransactionType type) {
+    public static void createTransaction(Long sourceAccount, Long destinationAccount, BigDecimal amount, TransactionType type) {
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
-        Transaction tx = new Transaction(sourceAccount, destinationAccount, amount, type, now);
+        Transaction tx = new Transaction(sourceAccount, destinationAccount, amount, type.toSqlName(), now);
 
         transactionDao.create(tx);
     }
 
-    public static void handleTransactionCreation(String sourceAccountNumber, Boolean isSourceExternal, String destinationAccountNumber, Boolean isDestinationExternal, BigDecimal amount, UUID profileId) throws Exception {
+    public static void handleTransactionCreation(String sourceAccountNumber, Boolean isSourceExternal, String destinationAccountNumber, Boolean isDestinationExternal, BigDecimal amount, Long profileId) throws Exception {
         Account sourceAccount = null;
         Account destinationAccount = null;
 
@@ -52,11 +52,11 @@ public class TransactionService {
                 throw new Exception("Insufficient balance");
             }
 
-            if (sourceAccount.getProfileId().compareTo(profileId) != 0) {
+            if (!Objects.equals(sourceAccount.getProfileId(), profileId)) {
                 throw new Exception("Account does not belong to user");
             }
 
-            if (sourceAccount.getType() == AccountType.Credit) {
+            if (Objects.equals(sourceAccount.getType(), AccountType.Credit.toSqlName())) {
                 throw new Exception("Wrong account type");
             }
         }
@@ -64,19 +64,19 @@ public class TransactionService {
         if (!isDestinationExternal) {
             destinationAccount = AccountsService.validateAccountForTransaction(destinationAccountNumber);
 
-            if (destinationAccount.getType() == AccountType.Debit) {
+            if (Objects.equals(destinationAccount.getType(), AccountType.Debit.toSqlName())) {
                 throw new Exception("Wrong account type");
             }
         }
 
-        if (sourceAccount != null && sourceAccount.getType() == AccountType.Debit) {
+        if (sourceAccount != null && Objects.equals(sourceAccount.getType(), AccountType.Debit.toSqlName())) {
             if (sourceAccount.getBalance().compareTo(amount) != 0) {
                 throw new Exception("Funds from debit account should be withdraw all at once");
             }
             AccountsService.closeAccount(sourceAccount.getId());
         }
 
-        if (destinationAccount != null && destinationAccount.getType() == AccountType.Credit) {
+        if (destinationAccount != null && Objects.equals(destinationAccount.getType(), AccountType.Credit.toSqlName())) {
             if (destinationAccount.getBalance().negate().compareTo(amount) < 0) {
                 throw new Exception("Debt on credit account is lower");
             }

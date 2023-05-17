@@ -1,27 +1,29 @@
-package main.java.dao;
+package dao;
 
-import main.java.models.Account;
+import models.Account;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
+
 
 public interface AccountDao {
     void create(Account a);
 
-    void openAccount(UUID id);
+    void openAccount(Long id);
 
-    void closeAccount(UUID id);
+    void closeAccount(Long id);
 
-    Account getById(UUID id);
+    Account getById(Long id);
 
     Account getByAccountNumber(String accountNumber);
 
-    List<Account> getByProfileId(UUID profileId);
+    List<Account> getByProfileId(Long profileId);
 
-    Account getDefaultAccountByProfileId(UUID profileId);
+    Account getDefaultAccountByProfileId(Long profileId);
 
     List<Account> getProcessingCreditRequests();
 
-    void updateBalance(UUID id, BigDecimal newBalance);
+    void updateBalance(Long id, BigDecimal newBalance);
+
+    void update(Account a);
 }
